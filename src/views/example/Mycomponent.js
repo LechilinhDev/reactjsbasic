@@ -1,38 +1,43 @@
 import React from "react";
 import ChildComponent from "./ChildComponent";
+import AddComponent from "./AddComponent";
 class Mycomponent extends React.Component {
 
     state = {
-        firtName: '',
-        lastName: ''
+
+        allJobs: [
+            { id: 'abc1', title: 'developer ReactJs', salary: '1000' },
+            { id: 'abc2', title: 'backend developer', salary: '1500' },
+            { id: 'abc3', title: 'Project manager', salary: '2000' }
+        ]
+    }
+    addNewJob = (job) => {
+        this.setState({
+            allJobs: [...this.state.allJobs, job]
+        })
+
+
     }
 
-    handleFirstName = (event) => {
+    deleteJob = (job) => {
+        let currentJob = this.state.allJobs;
+        currentJob = currentJob.filter(e => e.id !== job.id);
+
+        console.log(currentJob);
         this.setState({
-            firtName: event.target.value
+            allJobs: currentJob
         })
+
+
     }
-    handleChangeLastName = (event) => {
-        this.setState({
-            lastName: event.target.value
-        })
-    }
-    handleOnClick = (event) => {
-        event.preventDefault();
-        console.log('>>>>check state', this.state);
-    }
+
     render() {
         return (
             <>
-                <form >
-                    <label htmlFor="fname">First name:</label><br />
-                    <input type="text" onChange={(event) => this.handleFirstName(event)} value={this.state.firtName} /><br />
-                    <label htmlFor="lname">Last name:</label><br />
-                    <input type="text" onChange={(event) => this.handleChangeLastName(event)} value={this.state.lastName} /><br /><br />
-                    <input type="submit" onClick={(event) => this.handleOnClick(event)} value="Submit" />
-                </form>
+                <AddComponent addNewJob={this.addNewJob} />
 
-                < ChildComponent name={'Hoàng Văn Thái'} age={'88'} />
+
+                < ChildComponent AJobs={this.state.allJobs} deleteJob={this.deleteJob} />
 
 
             </>
